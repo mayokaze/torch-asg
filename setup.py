@@ -8,8 +8,8 @@ except:
 
 ext_mods = []
 
-if torch.cuda.is_available():
-    ext_mods.append(CUDAExtension(name='torch_asg_native',
+#if torch.cuda.is_available():
+ext_mods.append(CUDAExtension(name='torch_asg_native',
                                   sources=['torch_asg/native/utils.cpp',
                                            'torch_asg/native/force_aligned_lattice.cpp',
                                            'torch_asg/native/fully_connected_lattice.cpp',
@@ -31,7 +31,8 @@ if torch.cuda.is_available():
                                                '--expt-extended-lambda',
                                                '--expt-relaxed-constexpr'
                                                ],
-                                  }))
+
+'''                                 }))
 else:
     ext_mods.append(CppExtension(name='torch_asg_native',
                                  sources=['torch_asg/native/utils.cpp',
@@ -41,7 +42,7 @@ else:
                                  extra_compile_args=['-fopenmp', '-Ofast']
                                  # extra_compile_args=['-fopenmp', '-O0', '-g']
                                  ))
-
+'''
 setup(
     name='torch_asg',
     version='',
