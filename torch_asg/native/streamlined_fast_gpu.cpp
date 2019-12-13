@@ -5,6 +5,7 @@
 #include <c10/cuda/CUDAStream.h>
 #include <ATen/cuda/CUDAEvent.h>
 #include <cuda_runtime.h>
+#include <ATen/ATen.h>
 
 #include "streamlined_fast_gpu.h"
 #include "fully_connected_lattice.h"
@@ -260,7 +261,7 @@ fast_asg_gpu_backward(
 
     auto grad_inputs = masked_softmax(gamma_full, 2) * grad_out_full.view({1, num_batches, 1});
     auto grad_transition = (grad_inputs.slice(0, 1).view({batch_input_len - 1, num_batches, num_labels, 1}) *
-                            masked_softmax(path_contrib_full, 3)).sum({0, 1});
+                            masked_softmax(path_contrib_full, 3)).sum(at::IntArrayRef{0, 1});
 
     at::cuda::setCurrentCUDAStream(stream2);
 

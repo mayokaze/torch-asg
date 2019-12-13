@@ -2,6 +2,7 @@
 // Created by amade on 4/2/2019.
 //
 #include "fully_connected_lattice.h"
+#include <ATen/ATen.h>
 //#include <omp.h>
 
 namespace torch_asg {
@@ -57,7 +58,7 @@ fully_connected_derivative(
 ) {
     auto grad_inputs = masked_softmax(gamma, 2) * grad_out.view({1, num_batches, 1});
     auto grad_transition = (grad_inputs.slice(0, 1).view({batch_input_len - 1, num_batches, num_labels, 1}) *
-                            masked_softmax(path_contrib, 3)).sum({0, 1});
+                            masked_softmax(path_contrib, 3)).sum(at::IntArrayRef{0, 1});
 
     return {grad_transition, grad_inputs};
 }
