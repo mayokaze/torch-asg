@@ -32,7 +32,8 @@ ext_mods.append(CUDAExtension(name='torch_asg_native',
                                                '--expt-relaxed-constexpr'
                                                ],
 
-'''                                 }))
+                              }))
+'''   
 else:
     ext_mods.append(CppExtension(name='torch_asg_native',
                                  sources=['torch_asg/native/utils.cpp',
